@@ -11,8 +11,9 @@ before_install:
     - sudo apt-get clean
     - cd
     - wget http://hdiff.luite.com/ghcjs/ghcjs-test.tar.xz
-    - tar -xJf $HOME/ghcjs-test.tar.xz --strip-components 1
+    - tar -xJf $HOME/ghcjs-test.tar.xz --strip-components=1
     - sudo ln -s $HOME /home/vagrant
+    - ls -al $HOME
     - export PATH=$HOME/ghc/bin:$HOME/.cabal/bin:$HOME/jsshell:$HOME/node-v0.10.10-linux-x86:$PATH
     - cd $HOME/.cabal/bin
     - wget http://hdiff.luite.com/ghcjs/TestRunner
@@ -20,6 +21,7 @@ before_install:
     - cd
 
 install:
+    - pwd
     - cabal install -f-compiler-only
     - ghcjs-boot --reboot
     - cabal install --ghcjs random syb transformers text parallel QuickCheck old-time vector
