@@ -11,9 +11,8 @@ before_install:
     - sudo apt-get clean
     - cd
     - wget http://hdiff.luite.com/ghcjs/ghcjs-test.tar.xz
-    - cd /home
+    - tar -xJf $HOME/ghcjs-test.tar.xz --strip-components 1
     - sudo ln -s $HOME /home/vagrant
-    - tar -xJf $HOME/ghcjs-test.tar.xz
     - export PATH=$HOME/ghc/bin:$HOME/.cabal/bin:$HOME/jsshell:$HOME/node-v0.10.10-linux-x86:$PATH
     - cd $HOME/.cabal/bin
     - wget http://hdiff.luite.com/ghcjs/TestRunner
