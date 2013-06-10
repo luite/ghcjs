@@ -13,7 +13,9 @@ before_install:
     - cd
     - wget http://hdiff.luite.com/ghcjs/ghcjs-test.tar.xz
     - tar -xJf $HOME/ghcjs-test.tar.xz --strip-components=1
-    - sudo ln -s $HOME /home/vagrant
+    - sudo mkdir /home/vagrant
+    - sudo chown travis:travis /home/vagrant
+    - sudo mount --bind /home/travis /home/vagrant
     - ls -al $HOME
     - export PATH=$HOME/ghc/bin:$HOME/.cabal/bin:$HOME/jsshell:$HOME/node-v0.10.10-linux-x86:$PATH
     - cd $HOME/.cabal/bin
