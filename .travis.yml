@@ -20,6 +20,9 @@ before_install:
     - wget http://hdiff.luite.com/ghcjs/TestRunner
     - chmod 755 TestRunner
     - hash -r
+    - ghc --version
+    - find /home/travis/.cabal
+    - find /home/travis/ghcjs
     - cd $START
 
 install:
