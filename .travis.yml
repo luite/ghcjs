@@ -9,10 +9,11 @@ before_install:
     - sudo apt-get -y autoremove
     - dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
     - sudo apt-get clean
+    - cd
     - wget http://hdiff.luite.com/ghcjs/ghcjs-test.tar.xz
     - cd /home
-    - sudo ln -s /home/travis /home/vagrant
-    - tar -xJf ghc-7.6.1-i386-unknown-linux.tar.bz2
+    - sudo ln -s $HOME /home/vagrant
+    - tar -xJf $HOME/ghcjs-test.tar.xz
     - export PATH=$HOME/ghc/bin:$HOME/.cabal/bin:$HOME/jsshell:$HOME/node-v0.10.10-linux-x86:$PATH
     - cd $HOME/.cabal/bin
     - wget http://hdiff.luite.com/ghcjs/TestRunner
