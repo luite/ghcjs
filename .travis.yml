@@ -1,7 +1,7 @@
 language: haskell
 
 before_install:
-    - $START=`pwd`
+    - export START=`pwd`
     - sudo apt-get update -qq
     - sudo apt-get --no-install-recommends install darcs libgmp3-dev libgmp3c2 freeglut3 freeglut3-dev
     - sudo apt-get build-dep ghc
