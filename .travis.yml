@@ -5,16 +5,11 @@ before_install:
     - sudo apt-get update -qq
     - sudo apt-get --no-install-recommends install darcs libgmp3-dev libgmp3c2 freeglut3 freeglut3-dev
     - sudo apt-get build-dep ghc
-    - df
-    - echo Removing Java to free up more space
-    - apt-cache search java | awk '{print($1)}' | grep -E -e '^(ia32-)?(sun|oracle)-java' -e '^openjdk-' -e '^icedtea' -e '^(default|gcj)-j(re|dk)' -e '^gcj-(.*)-j(re|dk)' -e 'java-common' | xargs sudo apt-get -y remove
-    - sudo apt-get -y autoremove
-    - dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
     - sudo apt-get clean
     - cd
     - wget http://hdiff.luite.com/ghcjs/ghcjs-test.tar.xz
     - tar -xJf $HOME/ghcjs-test.tar.xz --strip-components=1
-    - ls -al $HOME
+    - rm ghcjs-test.tar.xz
     - export PATH=$HOME/ghc/bin:$HOME/.cabal/bin:$HOME/jsshell:$HOME/node/bin:$PATH
     - cd $HOME/.cabal/bin
     - wget http://hdiff.luite.com/ghcjs/TestRunner
@@ -24,7 +19,7 @@ before_install:
 
 install:
     - pwd
-    - cabal install -f-compiler-only
+    - cabal install -f-compiler-only -fdisable-optimizer
     - ghcjs-boot --reboot
     - cabal install --ghcjs random syb transformers text parallel QuickCheck old-time vector
     - cd
