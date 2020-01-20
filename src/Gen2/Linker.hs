@@ -120,6 +120,15 @@ data LinkResult = LinkResult
 
 instance Binary LinkResult
 
+showLinkResult :: LinkResult -> String
+showLinkResult lr = unlines
+  [ "linkLibRts: " ++ show (linkLibRTS lr)
+  , "linkLibA: " ++ show (linkLibA lr)
+  , "linkLibAArch: " ++ show (linkLibAArch lr)
+  , "base:"
+  , showBase (linkBase lr)
+  ]
+
 
 -- | link and write result to disk (jsexe directory)
 link :: DynFlags

@@ -28,6 +28,8 @@ module Gen2.Shim where
 
 import           DynFlags
 import qualified FileCleanup
+import           Outputable      (ppr, ($$))
+import           ErrUtils        (debugTraceMsg)
 
 import           Control.Lens hiding ((<.>))
 import           Control.Monad
@@ -135,14 +137,17 @@ jsCppOpts opts = filter (/="-traditional") (removeCabalMacros opts)
 
 readShimsArchive :: DynFlags -> FilePath -> IO B.ByteString
 readShimsArchive dflags archive = do
+  debugTraceMsg dflags 3 ("link: loading archive: " $$ ppr archive)
   meta <- Ar.readMeta archive
   srcs <- Ar.readAllSources archive
+
   let s       = settings dflags
       s1      = s { sPgm_P = (fst (sPgm_P s), jsCppPgmOpts (snd $ sPgm_P s))
                   , sOpt_P = jsCppOpts (Ar.metaCppOptions meta ++ sOpt_P s)
                   }
       dflags1 = dflags { settings = s1 }
-  srcs' <- forM srcs $ \(_filename, b) -> do
+  srcs' <- forM srcs $ \(filename, b) -> do
+    debugTraceMsg dflags 3 ("link: processing archive JavaScript source: " $$ ppr filename)
     infile  <- FileCleanup.newTempName dflags FileCleanup.TFL_CurrentModule "jspp"
     outfile <- FileCleanup.newTempName dflags FileCleanup.TFL_CurrentModule "jspp"
     BL.writeFile infile b
