@@ -53,6 +53,6 @@ executable ghcjs-testsuite
                       wai-app-static       >= 3.0  &&  < 3.2,
                       wai-websockets       >= 3.0  &&  < 3.1,
                       websockets           >= 0.12 &&  < 0.13,
-                      webdriver            >= 0.8  &&  < 0.9,
+                      webdriver            >= 0.8  &&  < 0.10,
                       lifted-base          >= 0.2  &&  < 0.3
 
