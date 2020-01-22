@@ -193,7 +193,7 @@ ghcjsRunMeta' js_env js_settings desc tht show_code ppr_code cvt expr = do
                               pkgs
                               (hsc_HPT hsc_env)
                               (Just js_code)
-  liftIO $ debugTraceMsg dflags 3 ("Template Haskell link result" $$ (ppr $ Gen2.showLinkResult lr))
+  liftIO $ debugTraceMsg dflags 3 ("Template Haskell link result" $$ text (Gen2.showLinkResult lr))
   ext <- liftIO $ do
     llr      <- mconcat <$> mapM (Gen2.tryReadShimFile dflags)  (Gen2.linkLibRTS lr)
     lla'     <- mconcat <$> mapM (Gen2.tryReadShimFile dflags)  (Gen2.linkLibA lr)
@@ -353,11 +353,11 @@ linkTh env settings js_files dflags pkgs hpt code = do
      then link
      else Gen2.getCached dflags' "template-haskell" cache_key >>= \case
             Just c  -> do
-              debugTraceMsg dflags 3 ("loaded Template Haskell runner from cache" $$ ppr (T.unpack cache_key))
+              debugTraceMsg dflags 3 ("loaded Template Haskell runner from cache" $$ text (T.unpack cache_key))
               return (runGet get $ BL.fromStrict c)
             Nothing -> do
               lr <- link
-              debugTraceMsg dflags 3 ("putting Template Haskell runner in cache" $$ ppr (T.unpack cache_key))
+              debugTraceMsg dflags 3 ("putting Template Haskell runner in cache" $$ text (T.unpack cache_key))
               Gen2.putCached dflags'
                              "template-haskell"
                              cache_key
