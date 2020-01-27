@@ -197,7 +197,7 @@ ghcjsRunMeta' js_env js_settings desc tht show_code ppr_code cvt expr = do
   ext <- liftIO $ do
     llr      <- mconcat <$> mapM (Gen2.tryReadShimFile dflags)  (Gen2.linkLibRTS lr)
     lla'     <- mconcat <$> mapM (Gen2.tryReadShimFile dflags)  (Gen2.linkLibA lr)
-    llaarch' <- mconcat <$> mapM (Gen2.readShimsArchive dflags) (Gen2.linkLibAArch lr)
+    llaarch' <- mconcat <$> mapM (Gen2.readShimsArchive dflags) (L.nub $ Gen2.linkLibAArch lr)
     return (llr <> lla' <> llaarch')
   let bs = ext <> BL.toStrict (Gen2.linkOut lr)
                <> T.encodeUtf8 ("\nh$TH.loadedSymbol = " <> symb <> ";\n")
