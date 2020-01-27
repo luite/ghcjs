@@ -25,8 +25,9 @@ import           Module ( InstalledUnitId
                         , moduleNameString
                         , primUnitId )
 import           PackageConfig (sourcePackageId, unitId)
-import           Outputable (ppr, showSDoc)
+import           Outputable (ppr, hang, showSDoc, SDoc, vcat, ($$), text)
 import qualified Packages
+import           ErrUtils
 
 import           Control.Concurrent.MVar
 import           Control.DeepSeq
@@ -223,6 +224,12 @@ link' dflags env settings target include pkgs objFiles jsFiles isRootFun extraSt
           pkgLibPaths = mkPkgLibPaths pkgs'
           getPkgLibPaths :: InstalledUnitId -> ([FilePath],[String])
           getPkgLibPaths k = fromMaybe ([],[]) (lookup k pkgLibPaths)
+          pprPkgLibs :: InstalledUnitId -> SDoc
+          pprPkgLibs pkg = let (libDirs, hsLibs) = getPkgLibPaths pkg
+                           in  hang (ppr pkg) 4
+                                      (hang (text "library paths:") 4 (vcat $ map text libDirs) $$
+                                      (hang (text "library archives:") 4 (vcat $ map text hsLibs)))
+      debugTraceMsg dflags 3 ("linking new packages" $$ vcat (map pprPkgLibs pkgs''))
       (archsDepsMap, archsRequiredUnits) <- loadArchiveDeps env =<<
           getPackageArchives dflags (map snd $ mkPkgLibPaths pkgs')
       pkgArchs <- getPackageArchives dflags (map snd $ mkPkgLibPaths pkgs'')

@@ -288,7 +288,7 @@ main' postLoadMode dflags0 args flagWarnings ghcjsSettings native = do
 
   ---------------- Do the business -----------
   let phaseMsg = when (Ghcjs.gsNativeToo ghcjsSettings) $
-                   liftIO (Ghcjs.compilationProgressMsg dflags3
+                   liftIO (compilationProgressMsg dflags3
                      (if native then "generating native" else "generating JavaScript"))
 
   handleSourceError (\e -> do

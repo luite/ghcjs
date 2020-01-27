@@ -18,8 +18,6 @@ module Compiler.Utils
       -- * Source code and JS related utilities
     , ghcjsSrcSpan
     , isJsFile
-      -- * User interaction
-    , compilationProgressMsg
       -- * Environment
     , getEnvMay
     , getEnvOpt
